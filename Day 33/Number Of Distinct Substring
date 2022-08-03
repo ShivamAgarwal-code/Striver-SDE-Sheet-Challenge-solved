@@ -1,0 +1,19 @@
+int distinctSubstring(string &word) {
+    //  Write your code here.
+    bool edge[26][26] = {0};
+    bool exists[26] = {0};
+    int ans = 0, p = 0, len = 1, pi = -1;
+    for(auto i:word) {
+        i = i - 'a';
+        // all substrings ending at i are counted if first time
+        if(!exists[i]) p = len, exists[i] = true;
+        // else if this prev  and current are never connected then all substrings ending at i - 1 are counted
+        else if(!edge[pi][i]) p = len - 1;
+        // else just let the prev value of add remain because all edges from this prev to current i exist
+        if(pi >= 0) edge[pi][i] = true; // make the edge
+        ans += p;
+        pi = i;
+        len ++;
+    }
+    return ans;
+}
